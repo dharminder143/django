@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container mt-5 text-center">
+<h2 class="text-center">Thanks, you for your Orders</h2>
+<a href="#" class="btn btn-success">My Orders</a>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>paymentId</th>
+        <th>orderId</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>paymentId:{{order.paymentId}}</td>
+        <td>orderId:{{order.orderId}}</td>
+        <td>Email:{{order.user.email}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+</div>
+
+{% endblock %}

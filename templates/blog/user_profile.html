@@ -1,0 +1,53 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<!-- <div class="container">
+
+<h1>hello</h1>
+
+	{% for p in profile_data %}
+	<p>username: {{ p.user.username }}</p>
+	<p>first_name: {{ p.user.first_name }}</p>
+	<p>last_name: {{ p.user.last_name }}</p>
+	<p>email: {{ p.user.email }}</p>
+	<p>image: {{ p.image }}</p>
+	<p>location: {{ p.location }}</p>
+
+	{% endfor %}
+</div> -->
+<div class="container " style="background-color:#F4F6F7;">
+  <h1>Hello World!</h1>
+  <div class="row">
+    <div class="col-sm-4" >
+    	<div >
+	{% for p in profile_data %}
+	<div style="background-image:url(/static/image/b1.jpg)">
+    		<img class="ml-3" height="150" width="150" src="/media/{{ p.image }}"></div>
+    		<h3> username: {{ p.user.username }}</h3>
+    		<h3> first_name: {{ p.user.first_name }}</h3>
+    		<h3> Email: {{ p.user.email }}</h3>
+    		<h3> location: {{ p.location }}</h3>
+	{% endfor %}
+
+    	</div>
+
+    </div>
+    <div class="col-sm-4" >
+    	<div>
+    		{% for p in Order_data %}
+    		<p>{{p.orderitems}}</p>
+    		<p>{{p.paymentId}}</p>
+	{% endfor %}
+
+    	</div>
+    </div>
+    <div class="col-sm-4" >43</div>
+      <p>Lorem ipsum...</p>
+    </div>
+    <div class="col-sm-9" style="background-color:pink;">
+      <p>Sed ut perspiciatis...</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h2>New post</h2>
+    <div class="container">
+    <form method="POST" class="post-form" enctype="multipart/form-data">
+    	{% csrf_token %}
+        {{form.media}}
+               {{ form|crispy }}
+               <!-- {{formset|crispy}} -->
+
+        <!-- {{ form.as_p }} -->
+        <button type="submit" class="save btn btn-default">submit</button>
+    </form>
+    </div>
+{% endblock %}

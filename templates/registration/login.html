@@ -1,0 +1,126 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+  <ul class="breadcrumb">
+    <li><a href="index.html"><i class="fa fa-home"></i></a></li>
+    <li><a href="#">Account</a></li>
+    <li><a href="login.html">Login</a></li>
+  </ul>
+  <div class="row">
+    <div class="col-sm-3 hidden-xs column-left" id="column-left">
+      <div class="column-block">
+        <div class="columnblock-title">Account</div>
+        <div class="account-block">
+          <div class="list-group"> <a class="list-group-item" href="login.html">Login</a> <a class="list-group-item" href="register.html">Register</a> <a class="list-group-item" href="forgetpassword.html">Forgotten Password</a> <a class="list-group-item" href="#">My Account</a> <a class="list-group-item" href="#">Address Book</a> <a class="list-group-item" href="#">Wish List</a> <a class="list-group-item" href="#">Order History</a> <a class="list-group-item" href="download">Downloads</a> <a class="list-group-item" href="#">Reward Points</a> <a class="list-group-item" href="#">Returns</a> <a class="list-group-item" href="#">Transactions</a> <a class="list-group-item" href="#">Newsletter</a><a class="list-group-item last" href="#">Recurring payments</a> </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-9" id="content">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="well">
+            <h2>New Customer</h2>
+            <p><strong>Register Account</strong></p>
+            <p>By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made.</p>
+            <a class="btn btn-primary" href="{% url 'signup' %}">Singhup Here</a></div>
+        </div>
+        <div class="col-sm-6">
+          <div class="well">
+            <h2>Returning Customer</h2>
+            <p><strong>I am a returning customer</strong></p>
+
+
+            <form class="login" enctype="multipart/form-data" method="post" action="{% url 'login' %}">{% csrf_token %}
+               {{ form|crispy }}
+
+              <!-- <div class="form-group">
+                <label for="input-email" class="control-label">{{ form.username.label_tag }}</label>
+                {{ form.username }}
+              </div>
+              <div class="form-group">
+                <label for="input-password" class="control-label">{{ form.password.label_tag }}</label>
+               {{ form.password }}<br> -->
+               
+                <a href="{% url 'password_reset' %}">Forgotten Password</a></div>
+                <button type="submit" class="btn btn-primary"> Login </button>
+              
+            </form>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    function login(){
+        email = document.getElementById("exampleInputUsername").value;
+        password = document.getElementById("exampleInputPassword").value;
+        csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        $("#errorlogin").html("");
+        $.ajax({
+            type:"POST",
+            url:'/login/',
+            data:{
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+                'email':email,
+                'password':password,
+            },
+            success : function(data){
+                console.log(data);
+                if(data['message'] == "Success"){
+                    location.reload();
+                }
+                else if(data['message'] == "inactive"){
+                    $("#errorlogin").html("Please verify this E-mail address.");
+                }
+                else{
+                    $("#errorlogin").html("The E-mail and Password do not match.");
+                }
+            }
+        });
+    }
+        function signup(){
+            email = document.getElementById("exampleInputEmail").value;
+            fname = document.getElementById("exampleInputFname").value;
+            lname = document.getElementById("exampleInputLname").value;
+            password1 = document.getElementById("exampleInputPassword1").value;
+            password2 = document.getElementById("exampleInputPassword2").value;
+            csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+            $("#erroremail").html("");
+            $("#errorpass").html("");
+            if(fname == "" || lname == ""){
+                $("#errorname").html("First Name and Last Name Required");
+            }
+            else{
+            $.ajax({
+            type:"POST",
+            url:'/signup/',
+            data:{
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+              'first_name':fname,
+              'last_name':lname,
+              'email':email,
+              'password1':password1,
+              'password2':password2,
+            },
+            success : function(data){
+                console.log(data['message']);
+                if(data['message'] == "Success"){
+                    window.location = "/"
+                }
+                else{
+                    if("email" in data['message'])
+                        $("#erroremail").html(data['message']['email'][0]);
+                    if("password2" in data['message'])
+                        $("#errorpass").html(data['message']['password2'][0]);
+                }
+            }
+        })
+        }
+      }
+    </script>
+{% endblock %}

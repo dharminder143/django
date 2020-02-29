@@ -1,0 +1,93 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+<style type="text/css">
+    .right {
+  float: right;
+   margin-right:50px;
+   margin-bottom : 15px;
+}
+.button1 {
+  background-color:#FFA233 ; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 18px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.button1:hover {
+    color: #FFA233;
+    background-color: #FFFFFF  ;
+    border-color: #FFA233;
+    border-width:1px;
+    border-style:outset;
+
+
+}
+.t{
+    text-align: center;
+}
+</style>
+<div class="container">
+    <br>
+  <div class="t"><h1>PRODUCT LIST </h1></div>
+  <div class="right">
+    <a href="{% url 'post_new' %}"><button type="button" class="button1">Add Product</button></a>
+     <!-- <a href="{% url 'order_view' %}"><button type="button" class="button1">Order List</button></a> -->
+</div><br>    
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Name</th>
+        <th>category</th>
+        <th>Price</th>
+        <th>stock</th>
+        <th>create_at</th>
+        <th>updated_at</th>
+        <th>old_price</th>
+        <th>brand_name</th>
+        <th>Action</th>
+        <th>Image</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% for p in list_display %}
+
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{p.name}}</td>
+        <td>{{p.category}}</td>
+        <td>{{p.price}}</td>
+        <!-- <td>{{p.description}}</td> -->
+        <td>{{p.stock}}</td>
+        <td>{{p.created_at}}</td>
+        <td>{{p.updated_at}}</td>
+        <td>{{p.old_price}}</td>
+        <td>{{p.brand_name}}</td>
+        <td> 
+        	<a href="{% url 'product_edit' p.pk %}">  Edit </a> | 
+        	<a href="{% url 'post_remove' p.pk %}"> Delete </a> | 
+        	{% if p.published == 1 %}
+            <a href="{% url 'published' p.pk%}">published</a>
+            {% else %}
+            <a href="{% url 'published' p.pk%}">unpublished</a>
+            {% endif %}
+<!-- ?st={{p.published}}&pid={{p.pk}} -->
+        </td>
+        <td><img height="150" width="150" src="/media/{{p.image}}"></td>
+      </tr>
+
+    {% endfor %}
+
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}
